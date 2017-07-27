@@ -4,13 +4,6 @@ const test = require('../index');
 const startupSpies = [];
 const cleanupSpies = [];
 
-const enablePrint = false;
-function print(val) {
-    if (enablePrint) {
-        console.log(`     *******************************  ${val}  *******************************`);
-    }
-}
-
 function provisionStartupSpy() {
     const spy = sinon.stub();
     startupSpies.push(spy);
@@ -24,14 +17,14 @@ function provisionCleanupSpy() {
 }
 
 function resetAllStartupSpies() {
-    for (const spy of startupSpies) {
-        spy.reset();
+    for (var i=0; i<startupSpies.length; i++) {
+        startupSpies[i].reset();
     }
 }
 
 function resetAllCleanupSpies() {
-    for (const spy of cleanupSpies) {
-        spy.reset();
+    for (var i=0; i<cleanupSpies.length; i++) {
+        cleanupSpies[i].reset();
     }
 }
 
@@ -41,32 +34,28 @@ const spyParentAfter = provisionCleanupSpy();
 const spyChildBefore = provisionStartupSpy();
 const spyChildAfter = provisionCleanupSpy();
 
-test.before((handle) => {
-    print('parent-before');
+test.before(function (handle) {
     spyParentBefore();
     handle.end();
 });
 
-test.after((handle) => {
-    print('parent-after');
+test.after(function (handle) {
     spyParentAfter();
     handle.end();
 });
 
-test('Single test suite with nested tests. Startup and cleanup added at both parent & child level', (suite) => {
-    suite.before((handle) => {
-        print('child-before-1');
+test('Single test suite with nested tests. Startup and cleanup added at both parent & child level', function (suite) {
+    suite.before(function (handle) {
         spyChildBefore();
         handle.end();
     });
 
-    suite.after((handle) => {
-        print('child-after-2');
+    suite.after(function (handle) {
         spyChildAfter();
         handle.end();
     });
 
-    suite.test('Child test (1/2). Startup and cleanup added at both parent & child level', (t) => {
+    suite.test('Child test (1/2). Startup and cleanup added at both parent & child level', function (t) {
         t.equal(spyParentBefore.callCount, 1, 'Parent Before Hook was called once');
         t.equal(spyChildBefore.callCount, 1, 'Child Before Hook was called once');
         t.ok(spyParentBefore.calledBefore(spyChildBefore), 'Parent before hook was invoked before child before hook');
@@ -74,7 +63,7 @@ test('Single test suite with nested tests. Startup and cleanup added at both par
         t.end();
     });
 
-    suite.test('Child test (2/2). Startup and cleanup added at both parent & child level', (t) => {
+    suite.test('Child test (2/2). Startup and cleanup added at both parent & child level', function (t) {
         t.notOk(spyParentBefore.called, 'Parent Before-Hook should only be called before first child');
         t.equal(spyChildBefore.callCount, 1, 'Child Before-Hook was called');
         t.equal(spyChildAfter.callCount, 1, 'Child After-Hook was called after Child-1 was executed');
@@ -82,13 +71,12 @@ test('Single test suite with nested tests. Startup and cleanup added at both par
         t.end();
 
         // Intentional asynchronous assert for cleanup hooks after test ends
-        setTimeout(() => {
+        setTimeout(function () {
             t.equal(spyChildAfter.callCount, 1, 'Child-After-Hook was called after Child-2 was completed');
             t.equal(spyParentAfter.callCount, 1, 'Parent-After-Hook was called once after last child test case was executed');
             t.ok(spyChildAfter.calledBefore(spyParentAfter), 'Child-After-Hook called before Parent-After-Hook');
         }, 1);
     });
-
 });
 
 

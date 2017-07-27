@@ -16,7 +16,7 @@ npm i better-tape --save-dev
 ## Example
 Using `before` and `after` hooks at top level
 ```
-const test = require('../');
+const test = require('beter-tape');
 
 test.before((handle) => {
     console.log(`\n>> INSIDE before`);
@@ -68,7 +68,7 @@ ok 1 - test/sample.js # time=109.678ms
 
 Using `before` and `after` hooks with nested test cases
 ```
-const test = require('../');
+const test = require('better-tape');
 
 test.before((handle) => {
     console.log(`\n>> INSIDE before`);

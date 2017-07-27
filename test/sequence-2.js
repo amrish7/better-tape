@@ -4,13 +4,6 @@ const test = require('../index');
 const startupSpies = [];
 const cleanupSpies = [];
 
-const enablePrint = false;
-function print(val) {
-    if (enablePrint) {
-        console.log(`     *******************************  ${val}  *******************************`);
-    }
-}
-
 const spyBefore = provisionStartupSpy();
 const spyAfter = provisionCleanupSpy();
 
@@ -27,36 +20,34 @@ function provisionCleanupSpy() {
 }
 
 function resetAllStartupSpies() {
-    for (const spy of startupSpies) {
-        spy.reset();
+    for (var i=0; i<startupSpies.length; i++) {
+        startupSpies[i].reset();
     }
 }
 
 function resetAllCleanupSpies() {
-    for (const spy of cleanupSpies) {
-        spy.reset();
+    for (var i=0; i<cleanupSpies.length; i++) {
+        cleanupSpies[i].reset();
     }
 }
 
-test.before((handle) => {
-    print('before-1');
+test.before(function (handle) {
     spyBefore();
     handle.end();
 });
 
-test.after((handle) => {
-    print('after-1');
+test.after(function (handle) {
     spyAfter();
     handle.end();
 });
 
-test('Test (1/2) with before and after hook run in order', (t) => {
+test('Test (1/2) with before and after hook run in order', function (t) {
     t.equal(spyBefore.callCount, 1, 'Before hook was called once');
     resetAllStartupSpies();
     t.end();
 });
 
-test('Test (2/2) with couple of startup and cleanup run in order', (t) => {
+test('Test (2/2) with couple of startup and cleanup run in order', function (t) {
     // Assert clean-ups for previous test case
     t.equal(spyAfter.callCount, 1, 'After hook was called once');
     resetAllCleanupSpies();
@@ -67,7 +58,7 @@ test('Test (2/2) with couple of startup and cleanup run in order', (t) => {
     t.end();
 
     // Intentional asynchronous assert for cleanup hooks
-    setTimeout(() => {
+    setTimeout(function () {
         t.equal(spyAfter.callCount, 1, 'After hook was called once');
     });
 });
