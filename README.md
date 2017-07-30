@@ -14,7 +14,7 @@ npm i better-tape --save-dev
 ```
 
 ## Usage
-**As this is a complete fork of [tape](https://www.npmjs.com/package/tape), please refer to tape 
+**This is a fork of [tape](https://www.npmjs.com/package/tape), please refer to tape 
 [README](https://github.com/substack/tape) for complete documentation**
 
 You always need to `require('better-tape)` in your test files. You can run the tests using `better-tape` binary to utilize 
