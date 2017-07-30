@@ -56,7 +56,11 @@
     "test",
     "harness",
     "assert",
-    "browser"
+    "browser",
+    "before",
+    "after",
+    "beforeEach",
+    "afterEach"
   ],
   "author": {
     "name": "Amrish Ravidas",
