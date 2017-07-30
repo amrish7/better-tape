@@ -1,16 +1,26 @@
 # better-tape
-better-tape is intended to be an extension pack with some of the much requested features that are missing in tape. Here is
+better-tape is intended to be an extension pack with the much requested features that are missing in tape. Here is
 a 10 minute [read](https://medium.com/javascript-scene/why-i-use-tape-instead-of-mocha-so-should-you-6aa105d8eaf4) on why 
 one should pick `tape` over `mocha`.
 
 Following are the features that are currently supported
 - Support for `before(handle)` to provide start-up hook
 - Support for `after(handle)` to provide clean-up hook
-- **Full support for adding the above hooks at all levels of a nested test suite**
+- **Full support for adding the above lifecycle hooks at all levels of a nested test suite**
 
 ## Install
 ```
 npm i better-tape --save-dev
+```
+
+## Usage
+**As this is a complete fork of [tape](https://www.npmjs.com/package/tape), please refer to tape 
+[README](https://github.com/substack/tape) for complete documentation**
+
+You always need to `require('better-tape)` in your test files. You can run the tests using `better-tape` binary to utilize 
+globbing, for example
+```
+$ better-tape tests/**/*.js
 ```
 
 ## Example
@@ -134,9 +144,6 @@ ok 1 - test/sample.js # time=102.496ms
 1..1
 # time=115.107ms
 ```
-
-## Usage
-Please refer to official `tape` [documentation](https://github.com/substack/tape) for complete usage information
 
 ### LICENCE
 Copyright of large portions of project better-tape are held by James Halliday as part of project [tape](https://github.com/substack/tape).

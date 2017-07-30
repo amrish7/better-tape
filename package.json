@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Feature extension kit for tape",
   "main": "index.js",
-  "bin": "./bin/tape",
+  "bin": "./bin/better-tape",
   "directories": {
     "example": "example",
     "test": "test"
