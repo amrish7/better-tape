@@ -24,6 +24,44 @@ $ better-tape tests/**/*.js
 ```
 
 ## Example
+Using `only` with nested test cases *NEW WITH better-tape@1.1.0*
+```
+const test = require('beter-tape');
+test.only('Nested only test', function (suite) {
+    suite.test('ignored nested test-1', function (t) {
+        t.fail('should not be executed');
+        t.end();
+    });
+    suite.test('ignored nested test-2', function (t) {
+        t.fail('should not be executed');
+        t.end();
+    });
+    suite.only('nested ONLY test-3', function (t) {
+        t.pass('Only nested test case that should have been run');
+        t.end();
+    });
+});
+```
+Output
+```
+TAP version 13
+# Subtest: test/only6.js
+    # only6 nested only test
+    # nested ONLY test-3
+    ok 1 Only nested test case that should have been run
+
+    1..1
+    # tests 1
+    # pass  1
+
+    # ok
+
+ok 1 - test/only6.js # time=130.732ms
+
+1..1
+# time=144.871ms
+```
+
 Using `before` and `after` hooks at top level
 ```
 const test = require('beter-tape');
